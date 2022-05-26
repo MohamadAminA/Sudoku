@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "QMessageBox"
-
+#include "soduko.h"
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::MainWindow)
@@ -9,6 +9,9 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui->setupUi(this);
 	ui->label_2->hide();
 	ui->lineEdit_name->hide();
+	ui->comboBox->hide();
+	ui->label_3->hide();
+	ui->pushButton_start->hide();
 }
 
 MainWindow::~MainWindow()
@@ -53,6 +56,14 @@ void MainWindow::on_pushButton_signIn_clicked()
 		if(QString::compare(ui->listWidget_showAccount->currentItem()->text(),Allusers[i].Nameget()) == 0){
 			QMessageBox::information(this,"Login","Wellcome to Soduko\n"+Allusers[i].Nameget(),QMessageBox::Ok);
 			//----------------------ورود به قسمت بازی سودوکو
+			ui->label->hide();
+			ui->label_2->hide();
+			ui->listWidget_showAccount->hide();
+			ui->pushButton_signIn->hide();
+			ui->pushButton_newAccount->hide();
+			ui->comboBox->show();
+			ui->label_3->show();
+			ui->pushButton_start->show();
 		}
 }
 
@@ -92,10 +103,21 @@ void MainWindow::on_pushButton_newAccount_clicked()
 			empty_User++;
 			ui->label_2->hide();
 			ui->lineEdit_name->hide();
-			for(int last = 0;Allusers[last].Nameget() != "";++last)
-				QMessageBox::about(this,"",Allusers[last].Nameget());
+
 		}
 
 	}
 
+}
+
+
+
+//for(int last = 0;Allusers[last].Nameget() != "";++last)
+//	QMessageBox::about(this,"",Allusers[last].Nameget());
+
+void MainWindow::on_pushButton_start_clicked()
+{
+	this->hide();
+	Soduko* w = new Soduko(this , ui->comboBox->currentText() );
+	w->show();
 }

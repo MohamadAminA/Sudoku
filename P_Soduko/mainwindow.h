@@ -27,6 +27,8 @@ private slots:
 
 	void on_pushButton_newAccount_clicked();
 
+	void on_pushButton_start_clicked();
+
 private:
 	Ui::MainWindow *ui;
 };
