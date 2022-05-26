@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/resource">
-        <file>img/Background/cute hand drawn style mathematics.png</file>
+    <qresource prefix="/">
+        <file>img/Background/Background.png</file>
     </qresource>
 </RCC>

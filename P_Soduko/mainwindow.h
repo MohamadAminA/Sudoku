@@ -15,8 +15,15 @@ protected:
 	void resizeEvent(QResizeEvent* evt) override;
 
 public:
-	explicit MainWindow(QWidget *parent = 0);
+	explicit MainWindow(QWidget *parent = nullptr);
 	~MainWindow();
+
+public slots:
+
+private slots:
+	void on_pushButton_signIn_clicked();
+
+	void on_pushButton_newAccount_clicked();
 
 private:
 	Ui::MainWindow *ui;
