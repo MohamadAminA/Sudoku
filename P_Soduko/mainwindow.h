@@ -18,6 +18,8 @@ public:
 	explicit MainWindow(QWidget *parent = nullptr);
 	~MainWindow();
 
+	class User;
+
 public slots:
 
 private slots:

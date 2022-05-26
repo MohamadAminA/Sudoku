@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "QMessageBox"
-#include "user.h"
 
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
@@ -17,9 +16,22 @@ MainWindow::~MainWindow()
 	delete ui;
 }
 
+class User
+{
+public:
+	QString Nameget(){
+		return this->Name;
+	}
+	void Nameset(QString new_name){
+		Name = new_name;
+	}
+private:
+	QString Name;
+
+};
 //آرایه نگه داری اطلاعات کاربرها
-//User AllUsers [50];
-QString Allusers[50];
+User Allusers [50];
+User* empty_User = &Allusers[0];
 int users_size = 0;
 //تنظیم بکگراند به صورت تغییر پذیر
 void MainWindow::resizeEvent(QResizeEvent* evt)
@@ -37,9 +49,9 @@ void MainWindow::resizeEvent(QResizeEvent* evt)
 
 void MainWindow::on_pushButton_signIn_clicked()
 {
-	for(int i=0; Allusers[i] != "";i++)
-		if(ui->listWidget_showAccount->currentItem()->text() == Allusers[i]){
-			QMessageBox::information(this,"Login","Wellcome "+Allusers[i],QMessageBox::Ok);
+	for(int i=0; Allusers[i].Nameget() != "";++i)
+		if(QString::compare(ui->listWidget_showAccount->currentItem()->text(),Allusers[i].Nameget()) == 0){
+			QMessageBox::information(this,"Login","Wellcome to Soduko\n"+Allusers[i].Nameget(),QMessageBox::Ok);
 			//----------------------ورود به قسمت بازی سودوکو
 		}
 }
@@ -47,36 +59,43 @@ void MainWindow::on_pushButton_signIn_clicked()
 
 void MainWindow::on_pushButton_newAccount_clicked()
 {
-	for(int i=0 ; i<users_size ; ++i)
-		if(Allusers[i] == ui->lineEdit_name->text())
-		{
-			QMessageBox::warning(this,"Sign Up","This name is already taken !");
-			ui->lineEdit_name->setText("");
-			return;
-		}
-	if(ui->listWidget_showAccount->isHidden())
-	{
-		if(ui->lineEdit_name->text() != ""){
-			ui->listWidget_showAccount->show();
-			ui->pushButton_signIn->show();
-			ui->label->show();
-			ui->pushButton_signIn->setEnabled(true);
-			ui->label_2->hide();
-			ui->lineEdit_name->hide();
-			ui->listWidget_showAccount->addItem(ui->lineEdit_name->text());
-			ui->lineEdit_name->clear();
-			++users_size;
-		}
-		else{
-			QMessageBox::warning(this,"Sign Up","Name is Empty!");
-			return;
-		}
-	}
-	else{
+	if(!ui->listWidget_showAccount->isHidden()){
 		ui->listWidget_showAccount->hide();
 		ui->pushButton_signIn->hide();
 		ui->label->hide();
 		ui->label_2->show();
 		ui->lineEdit_name->show();
+		return;
 	}
+	if(ui->listWidget_showAccount->isHidden())
+	{
+		if(ui->lineEdit_name->text() == ""){
+			QMessageBox::warning(this,"Sign Up","Name is Empty!");
+			return;
+		}
+		if(ui->lineEdit_name->text() != ""){
+			for(int i=0 ;Allusers[i].Nameget()!=""; ++i)
+				if(ui->lineEdit_name->text() == Allusers[i].Nameget())
+				{
+					QMessageBox::warning(this,"Sign Up","This name is already taken !");
+					ui->lineEdit_name->clear();
+					return;
+				}
+			ui->listWidget_showAccount->show();
+			ui->pushButton_signIn->show();
+			ui->label->show();
+			ui->pushButton_signIn->setEnabled(true);
+			empty_User->Nameset(ui->lineEdit_name->text());
+			ui->listWidget_showAccount->addItem(ui->lineEdit_name->text());
+			ui->lineEdit_name->clear();
+			++users_size;
+			empty_User++;
+			ui->label_2->hide();
+			ui->lineEdit_name->hide();
+			for(int last = 0;Allusers[last].Nameget() != "";++last)
+				QMessageBox::about(this,"",Allusers[last].Nameget());
+		}
+
+	}
+
 }
