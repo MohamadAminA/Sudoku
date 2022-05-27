@@ -97,7 +97,10 @@ void MainWindow::on_pushButton_newAccount_clicked()
 			ui->label->show();
 			ui->pushButton_signIn->setEnabled(true);
 			empty_User->Nameset(ui->lineEdit_name->text());
-			ui->listWidget_showAccount->addItem(ui->lineEdit_name->text());
+			QListWidgetItem* Item = new QListWidgetItem(ui->lineEdit_name->text());
+			ui->listWidget_showAccount->addItem(Item);
+			ui->listWidget_showAccount->setItemSelected(Item,true);
+
 			ui->lineEdit_name->clear();
 			++users_size;
 			empty_User++;
