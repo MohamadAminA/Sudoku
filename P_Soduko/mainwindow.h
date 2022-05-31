@@ -31,6 +31,8 @@ private slots:
 
 private:
 	Ui::MainWindow *ui;
+	QString Name_Player,Point_Player = 0;
+	int Users_count = 0;
 };
 
 #endif // MAINWINDOW_H
